@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Netflix Dual Subs: Korean and English subtitles together</title>
+  <meta name="description" content="A Chrome extension for learning Korean on Netflix: Korean and English subtitles at the same time, a dictionary on hover, known-word tracking and sentence reviews." />
+  <meta name="theme-color" content="#111111" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="style.css" />
+  <script type="module" src="demo.js"></script>
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="./"><img src="icon.svg" alt="" width="28" height="28" /> Dual Subs</a>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#remote">Phone remote</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-text">
+        <h1>Learn Korean from the shows you already watch</h1>
+        <p class="lead">Netflix Dual Subs is a Chrome extension that shows Korean and English subtitles at the same time, highlights the words you don't know yet, and hides the English once you can read the sentence yourself.</p>
+        <p class="cta"><span class="soon">Coming soon to the Chrome Web Store</span></p>
+      </div>
+
+      <figure class="demo" id="demo" aria-label="Interactive demo of the subtitles">
+        <div class="screen" tabindex="0">
+          <div class="scene" aria-hidden="true"><span class="s1"></span><span class="s2"></span><span class="s3"></span></div>
+          <div class="paused-badge" hidden>Paused while you read</div>
+          <div class="subs" id="subs" aria-live="polite"></div>
+          <div class="bar"><div class="progress" id="progress"></div></div>
+        </div>
+        <div class="demo-controls">
+          <button type="button" class="key" data-step="-1" aria-label="Previous line"><kbd>A</kbd> Previous line</button>
+          <button type="button" class="key" id="play" aria-label="Play or pause">Pause</button>
+          <button type="button" class="key" data-step="1" aria-label="Next line">Next line <kbd>D</kbd></button>
+        </div>
+        <figcaption>Try it: <span class="for-mouse">hover a word to look it up, click it to mark it learning or known.</span><span class="for-touch">tap a word to look it up, tap it again to mark it learning or known.</span> Mark every word in a line and its English blurs. Press <kbd>E</kbd> to peek.</figcaption>
+      </figure>
+    </section>
+
+    <section id="features" class="features">
+      <h2>What it does</h2>
+      <div class="grid">
+        <article>
+          <h3>Two subtitles, in step</h3>
+          <p>Korean and English appear and leave together, even when Netflix's two tracks are timed a little differently. You choose which language goes on top and how big each one is.</p>
+        </article>
+        <article>
+          <h3>Jump line by line</h3>
+          <p>Press <kbd>A</kbd> to hear the last line again and <kbd>D</kbd> to skip to the next one. The new line shows straight away, and playback starts just before it so you hear the first syllable. On-screen buttons do the same with the mouse.</p>
+        </article>
+        <article>
+          <h3>Hover for the dictionary</h3>
+          <p>Hovering a Korean word pauses the show and opens its entry from the National Institute of Korean Language's learners' dictionary, with the dictionary form (했어 → 하다) and grammar patterns such as -ㄴ 적이 있다.</p>
+        </article>
+        <article>
+          <h3>Your vocabulary, word by word</h3>
+          <p>Words you don't know yet are <span class="w-unknown">yellow</span>. Click once for <span class="w-learning">learning</span>, again for known. Names are <span class="w-name">blue</span> and never counted. Your marks follow you into every episode.</p>
+        </article>
+        <article>
+          <h3>English only when you need it</h3>
+          <p>When you know every word in a sentence, its English blurs (or disappears) so you read the Korean first. Press <kbd>E</kbd> or hover to check yourself. You can allow a few unknown words per sentence.</p>
+        </article>
+        <article>
+          <h3>A head start</h3>
+          <p>Start with a word list instead of marking 하다 and 사람 by hand: the NIKL vocabulary grades A to C, TOPIK beginner or intermediate words, or the most common words in Korean Netflix subtitles.</p>
+        </article>
+        <article>
+          <h3>Sentences, not lines</h3>
+          <p>Netflix often splits a sentence over two subtitles. Dual Subs knows when a line carries on, shows "1/2" beside it, and judges the whole sentence when deciding whether you need the English.</p>
+        </article>
+        <article>
+          <h3>Other languages too</h3>
+          <p>When a character speaks English, Japanese or any language other than Korean, the English goes on top and is never blurred. This uses Netflix's forced subtitles, which some titles have.</p>
+        </article>
+        <article>
+          <h3>Ask AI and fix the analysis</h3>
+          <p>Stuck on a phrase? Ask AI explains the word in its sentence, using your own Gemini key. If a word was split wrongly, Fix lets you split or join it, and the fix applies everywhere.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="split">
+      <div class="split-text">
+        <h2>A dictionary that reads the sentence</h2>
+        <p>Korean words often have several unrelated meanings. The popup puts the meaning that fits the part of speech first, highlights the one that matches the English subtitle, and shows grammar patterns the word is part of.</p>
+        <p>Open the full entry in one click, pin the popup with a right click, or press <kbd>Esc</kbd> to close it and carry on watching.</p>
+      </div>
+      <div class="mock-player small" aria-hidden="true">
+        <div class="pop static">
+          <div class="pop-head"><b>적</b> <span class="w-unknown">unknown</span></div>
+          <div class="pop-grammar"><span class="tag">grammar</span> <b>-ㄴ 적이 있다</b>: says that something has happened at some point in the past.</div>
+          <div class="pop-sense"><b>적</b> <span class="muted">bound noun</span><br />1. <b>time, experience</b>: the time when something happened.</div>
+          <div class="pop-sense dim"><b>적</b> <span class="muted">noun</span> <span class="level">intermediate</span><br />1. <b>enemy</b>: an opponent.</div>
+          <div class="pop-foot"><span class="link">Open in 사전 ↗</span><span class="btn">Ask AI</span><span class="btn">Fix…</span></div>
+        </div>
+        <div class="line ko"><span>나한테</span> <span class="w-unknown">장난친</span> <span class="w-unknown hl">적</span> <span>있니?</span></div>
+        <div class="line en bottom">Have you ever played a trick on me?</div>
+      </div>
+    </section>
+
+    <section class="split reverse">
+      <div class="split-text">
+        <h2>The English steps back as you learn</h2>
+        <p>While a sentence still has words you don't know, the English goes on top so you can follow the story. Once you know them all, the Korean goes on top and the English blurs below it.</p>
+        <p>The more words you mark, the more of each episode you read in Korean.</p>
+      </div>
+      <div class="compare" aria-hidden="true">
+        <div class="mock-player small">
+          <div class="mock-label">Unknown words</div>
+          <div class="line en">I'll be sure to keep this promise.</div>
+          <div class="line ko bottom"><span>이</span> <span class="w-unknown">약속</span>은 <span>꼭</span> <span class="w-unknown">지킬게요</span></div>
+        </div>
+        <div class="mock-player small">
+          <div class="mock-label">All words known</div>
+          <div class="line ko"><span>이</span> <span>약속</span>은 <span>꼭</span> <span>지킬게요</span></div>
+          <div class="line en bottom blurred">I'll be sure to keep this promise.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="reviews" class="split">
+      <div class="split-text">
+        <h2>Review sentences in the scene they came from</h2>
+        <p>Marking a word "learning" saves its sentence. Start review replays each saved sentence from the episode, with the lines around it, then pauses with the English hidden.</p>
+        <p>Answer <b>Incorrect</b> or <b>Correct</b>. Each sentence comes back on a spaced schedule: tomorrow for a new one, then 2.5 times longer after each correct answer.</p>
+        <p>Reviews play on a separate Netflix profile of your choice, so your place in each show and your Continue Watching row stay as they were. When the review ends you are back where you started.</p>
+      </div>
+      <div class="mock-player small review" aria-hidden="true">
+        <div class="rv-panel">
+          <div class="rv-top"><span>Review 3 of 12</span><span class="muted">✕</span></div>
+          <div class="rv-answer"><span class="rv-wrong">Incorrect <kbd>1</kbd></span><span class="rv-right">Correct <kbd>2</kbd></span></div>
+        </div>
+        <div class="line ko"><span>우리</span> <span>어디서</span> <span class="w-learning">만난</span> <span>적</span> <span>있지</span> <span>않아요?</span></div>
+        <div class="line en bottom hidden-quiz">English hidden until you answer</div>
+      </div>
+    </section>
+
+    <section id="remote" class="split reverse">
+      <div class="split-text">
+        <h2>A remote for the couch</h2>
+        <p>Casting the Chrome tab to your TV? Open the remote page on your phone and sign in with the same Google account.</p>
+        <p>Your phone shows the subtitles in time with the show. Tap a word for its dictionary entry and mark it known, unknown or learning. Big buttons play, pause, jump between lines and skip 10 seconds, and you can change the volume from there too.</p>
+      </div>
+      <div class="phone" aria-hidden="true">
+        <div class="phone-screen">
+          <div class="ph-title">Dual Subs remote</div>
+          <div class="ph-line"><span>괜찮아,</span> <span class="w-learning-ph">천천히</span> <span>해</span></div>
+          <div class="ph-en">It's okay, take your time.</div>
+          <div class="ph-card">
+            <div><b>천천히</b> <span class="w-learning">learning</span></div>
+            <div class="ph-btns"><span>Known</span><span>Unknown</span><span class="on">Learning</span></div>
+            <div class="ph-sense">1. <b>slowly</b>: at a slow, unhurried pace.</div>
+          </div>
+          <div class="ph-dock"><span>‹</span><span>❚❚</span><span>›</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sync">
+      <h2>Everywhere you watch</h2>
+      <p>Sign in with Google and your marked words, word fixes, review sentences and settings sync between computers. Without signing in, everything stays on this computer.</p>
+      <p>Word analysis runs inside the extension with the <a href="https://github.com/bab2min/Kiwi">Kiwi</a> Korean morphological analyser, so subtitles aren't sent anywhere to be analysed.</p>
+    </section>
+
+    <section id="faq" class="faq">
+      <h2>Questions</h2>
+      <details>
+        <summary>What do I need?</summary>
+        <p>Chrome (or another Chromium browser) on a desktop or laptop, and a Netflix subscription. Browser extensions can't run inside the Netflix apps on phones and TVs. To watch on a TV, cast the Chrome tab or plug the laptop in over HDMI and use the phone remote.</p>
+      </details>
+      <details>
+        <summary>Does it work with every show?</summary>
+        <p>It works with any title that has both Korean and English subtitles in your region. Netflix doesn't offer every subtitle language for every show.</p>
+      </details>
+      <details>
+        <summary>Is it only for Korean?</summary>
+        <p>The dictionary, word marking and reviews are built for Korean learners who read English. Showing two subtitle languages at once works for other language pairs too.</p>
+      </details>
+      <details>
+        <summary>Does it change my Netflix account?</summary>
+        <p>No. It adds the subtitles over Netflix's player in your browser. Reviews use a separate Netflix profile that you pick, so your watch progress isn't moved.</p>
+      </details>
+      <details>
+        <summary>How much does it cost?</summary>
+        <p>The extension is free. Ask AI is optional and uses your own Gemini API key.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer>
+    <p>Netflix Dual Subs is an independent project and is not affiliated with or endorsed by Netflix. Netflix is a trademark of Netflix, Inc.</p>
+    <p>Dictionary data: <a href="https://krdict.korean.go.kr/">한국어기초사전</a> and <a href="https://opendict.korean.go.kr/">우리말샘</a>, National Institute of Korean Language. Word analysis: <a href="https://github.com/bab2min/Kiwi">Kiwi</a> (Apache-2.0).</p>
+  </footer>
+</body>
+</html>
