@@ -1,4 +1,4 @@
-"""Smoke test for the Smarter Subtitles site: layout on desktop and phone, the interactive demo, no console errors.
+"""Smoke test for the Smarter Subtitles site: layout on desktop and phone, clips play, stills load, no console errors.
 
 Run: ~/projects/ai-tool-venv/bin/python3 tests/test_site.py [base-url]
 Without a URL it serves the repo folder itself. Screenshots go to ~/.tmp/dual-subs-site-*.png.
@@ -14,6 +14,18 @@ from playwright.sync_api import sync_playwright
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT = pathlib.Path.home() / ".tmp"
+CLIPS = 4  # hero, both languages, dictionary, review
+STILLS = 3  # English first, Korean only, Review page
+
+# Every <video> has loaded a frame and is playing; every <img class="clip"> has loaded.
+MEDIA_STATE = """() => ({
+  videos: [...document.querySelectorAll('video.clip')].map(v => ({
+    src: v.getAttribute('src'), ready: v.readyState, paused: v.paused, muted: v.muted, loop: v.loop,
+  })),
+  images: [...document.querySelectorAll('img.clip')].map(i => ({
+    src: i.getAttribute('src'), ok: i.complete && i.naturalWidth > 0,
+  })),
+})"""
 
 
 def serve():
@@ -24,58 +36,45 @@ def serve():
     return f"http://127.0.0.1:{server.server_port}/"
 
 
+def check_media(page):
+    state = page.evaluate(MEDIA_STATE)
+    assert len(state["videos"]) == CLIPS, state["videos"]
+    assert len(state["images"]) == STILLS, state["images"]
+    for v in state["videos"]:
+        assert v["muted"] and v["loop"], v
+    # Chrome pauses muted autoplay videos while they're off screen and lazy images load
+    # when near the viewport, so check each one after scrolling to it.
+    for i in range(CLIPS):
+        page.locator("video.clip").nth(i).scroll_into_view_if_needed()
+        page.wait_for_function(
+            "i => { const v = document.querySelectorAll('video.clip')[i]; return v.readyState >= 2 && !v.paused; }",
+            arg=i, timeout=10000,
+        )
+    for i in range(STILLS):
+        page.locator("img.clip").nth(i).scroll_into_view_if_needed()
+        page.wait_for_function(
+            "i => { const m = document.querySelectorAll('img.clip')[i]; return m.complete && m.naturalWidth > 0; }",
+            arg=i, timeout=10000,
+        )
+    page.evaluate("window.scrollTo(0, 0)")
+
+
 def main():
     base = sys.argv[1] if len(sys.argv) > 1 else serve()
     errors = []
     with sync_playwright() as p:
-        browser = p.chromium.launch()
+        # Playwright's bundled Chromium has no H.264; use installed Chrome.
+        browser = p.chromium.launch(channel="chrome")
 
         # Desktop
         page = browser.new_page(viewport={"width": 1366, "height": 860})
         page.on("console", lambda m: m.type == "error" and errors.append(m.text))
         page.on("pageerror", lambda e: errors.append(str(e)))
         page.goto(base)
-        page.wait_for_selector("#subs .line.ko")
-        print("1/6: demo shows a line")
-
-        # Line 1 has one unknown word (날씨), so English is on top and not blurred.
-        assert page.locator("#subs .line").first.get_attribute("class").startswith("line en")
-        assert page.locator("#subs .line.en.blurred").count() == 0
+        assert page.locator("#demo, script[src='demo.js']").count() == 0
+        check_media(page)
+        print("1/3: desktop: all clips play and all stills load")
         page.screenshot(path=str(OUT / "dual-subs-site-desktop.png"))
-
-        # Hover 날씨: popup, paused.
-        page.locator("#subs .w-unknown", has_text="날씨").hover()
-        page.wait_for_selector("#subs .pop")
-        assert "weather" in page.locator("#subs .pop").text_content()
-        assert page.locator("#demo .screen.paused").count() == 1
-        assert page.locator("#play").text_content() == "Play"
-        page.locator("#demo .screen").screenshot(path=str(OUT / "dual-subs-site-popup.png"))
-        print("2/6: hover pauses and shows the popup")
-
-        # Click twice: learning, then known. Sentence known -> English blurred, Korean on top.
-        page.locator("#subs .w", has_text="날씨").click()
-        assert page.locator("#subs .w-learning", has_text="날씨").count() == 1
-        page.locator("#subs .w", has_text="날씨").click()
-        assert page.locator("#subs .line.en.blurred").count() == 1
-        assert page.locator("#subs .line").first.get_attribute("class").startswith("line ko")
-        page.keyboard.press("e")
-        assert page.locator("#subs .line.en.blurred").count() == 0
-        print("3/6: marking words blurs the English, E reveals it")
-
-        # Leaving resumes.
-        page.mouse.move(5, 5)
-        page.wait_for_selector("#subs .pop", state="detached")
-        assert page.locator("#play").text_content() == "Pause"
-        print("4/6: leaving the subtitles resumes")
-
-        # d jumps to line 2 (지민: a name, all words known -> blurred).
-        page.keyboard.press("d")
-        page.wait_for_selector("#subs .w-name")
-        assert page.locator("#subs .line.en.blurred").count() == 1
-        page.keyboard.press("a")
-        page.locator("#subs .w", has_text="날씨").wait_for()
-        print("5/6: a/d move between lines")
-
         page.screenshot(path=str(OUT / "dual-subs-site-full.png"), full_page=True)
 
         # Phone
@@ -83,20 +82,16 @@ def main():
         phone.on("console", lambda m: m.type == "error" and errors.append(m.text))
         phone.on("pageerror", lambda e: errors.append(str(e)))
         phone.goto(base)
-        phone.wait_for_selector("#subs .line.ko")
+        check_media(phone)
         width = phone.evaluate("document.documentElement.scrollWidth")
         assert width <= 390, f"page is {width}px wide on a phone"
-        phone.locator("#subs .w", has_text="날씨").tap()
-        phone.wait_for_selector("#subs .pop")
-        assert phone.locator("#subs .w-unknown", has_text="날씨").count() == 1, "first tap must not mark"
-        phone.locator("#subs .w", has_text="날씨").tap()
-        assert phone.locator("#subs .w-learning", has_text="날씨").count() == 1
+        print("2/3: phone: clips play (inline), page fits the width")
         phone.screenshot(path=str(OUT / "dual-subs-site-phone.png"))
         phone.screenshot(path=str(OUT / "dual-subs-site-phone-full.png"), full_page=True)
-        print("6/6: phone layout fits, tap opens then marks")
 
         browser.close()
     assert not errors, errors
+    print("3/3: no console errors")
     print("PASS")
 
 

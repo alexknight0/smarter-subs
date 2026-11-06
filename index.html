@@ -8,7 +8,6 @@
   <meta name="theme-color" content="#111111" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="style.css" />
-  <script type="module" src="demo.js"></script>
 </head>
 <body>
   <header class="top">
@@ -29,19 +28,9 @@
         <p class="cta"><span class="soon">Coming soon to the Chrome Web Store</span></p>
       </div>
 
-      <figure class="demo" id="demo" aria-label="Interactive demo of the subtitles">
-        <div class="screen" tabindex="0">
-          <div class="scene" aria-hidden="true"><span class="s1"></span><span class="s2"></span><span class="s3"></span></div>
-          <div class="paused-badge" hidden>Paused while you read</div>
-          <div class="subs" id="subs" aria-live="polite"></div>
-          <div class="bar"><div class="progress" id="progress"></div></div>
-        </div>
-        <div class="demo-controls">
-          <button type="button" class="key" data-step="-1" aria-label="Previous line"><kbd>A</kbd> Previous line</button>
-          <button type="button" class="key" id="play" aria-label="Play or pause">Pause</button>
-          <button type="button" class="key" data-step="1" aria-label="Next line">Next line <kbd>D</kbd></button>
-        </div>
-        <figcaption>Try it: <span class="for-mouse">hover a word to look it up, click it to mark it learning or known.</span><span class="for-touch">tap a word to look it up, tap it again to mark it learning or known.</span> Mark every word in a line and its English blurs. Press <kbd>E</kbd> to peek.</figcaption>
+      <figure class="shot">
+        <video class="clip" src="media/hide.mp4" poster="media/hide.jpg" width="1280" height="654" autoplay muted loop playsinline aria-label="Netflix with Smarter Subtitles: lines with unknown words show English on top and Korean below, lines whose words are all known show Korean only"></video>
+        <figcaption>Lines with words you don't know show the English, with those words in <span class="w-unknown">yellow</span>. Lines you can read show only the Korean.</figcaption>
       </figure>
     </section>
 
@@ -62,11 +51,11 @@
         </article>
         <article>
           <h3>Your vocabulary, word by word</h3>
-          <p>Words you don't know yet are <span class="w-unknown">yellow</span>. Click once for <span class="w-learning">learning</span>, again for known. Names are <span class="w-name">blue</span> and never counted. Your marks follow you into every episode.</p>
+          <p>Words you don't know yet are <span class="w-unknown">yellow</span>. Right-click one for <span class="w-learning">learning</span>, again for known. Names are <span class="w-name">blue</span> and never counted. Your marks follow you into every episode.</p>
         </article>
         <article>
           <h3>English only when you need it</h3>
-          <p>When you know every word in a sentence, its English blurs (or disappears) so you read the Korean first. Press <kbd>E</kbd> or hover to check yourself. You can allow a few unknown words per sentence.</p>
+          <p>When you know every word in a sentence, its English blurs or disappears so you read the Korean first. Press <kbd>E</kbd> or hover to check yourself. You can allow a few unknown words per sentence.</p>
         </article>
         <article>
           <h3>A head start</h3>
@@ -78,7 +67,7 @@
         </article>
         <article>
           <h3>Other languages too</h3>
-          <p>When a character speaks English, Japanese or any language other than Korean, the English goes on top and is never blurred. This uses Netflix's forced subtitles, which some titles have.</p>
+          <p>When a character speaks English, Japanese or any language other than Korean, the English goes on top and is never hidden. This uses Netflix's forced subtitles, which some titles have.</p>
         </article>
         <article>
           <h3>Ask AI and fix the analysis</h3>
@@ -89,58 +78,65 @@
 
     <section class="split">
       <div class="split-text">
-        <h2>A dictionary that reads the sentence</h2>
-        <p>Korean words often have several unrelated meanings. The popup puts the meaning that fits the part of speech first, highlights the one that matches the English subtitle, and shows grammar patterns the word is part of.</p>
-        <p>Open the full entry in one click, pin the popup with a right click, or press <kbd>Esc</kbd> to close it and carry on watching.</p>
+        <h2>Both languages at once</h2>
+        <p>Netflix only shows one subtitle track at a time. Smarter Subtitles shows the Korean and the English together, so you can hear the line, read it in Korean and check what it means without pausing.</p>
+        <p>Lines that belong to a longer sentence are marked "1/2" and "2/2".</p>
       </div>
-      <div class="mock-player small" aria-hidden="true">
-        <div class="pop static">
-          <div class="pop-head"><b>적</b> <span class="w-unknown">unknown</span></div>
-          <div class="pop-grammar"><span class="tag">grammar</span> <b>-ㄴ 적이 있다</b>: says that something has happened at some point in the past.</div>
-          <div class="pop-sense"><b>적</b> <span class="muted">bound noun</span><br />1. <b>time, experience</b>: the time when something happened.</div>
-          <div class="pop-sense dim"><b>적</b> <span class="muted">noun</span> <span class="level">intermediate</span><br />1. <b>enemy</b>: an opponent.</div>
-          <div class="pop-foot"><span class="link">Open in 사전 ↗</span><span class="btn">Ask AI</span><span class="btn">Fix…</span></div>
-        </div>
-        <div class="line ko"><span>나한테</span> <span class="w-unknown">장난친</span> <span class="w-unknown hl">적</span> <span>있니?</span></div>
-        <div class="line en bottom">Have you ever played a trick on me?</div>
-      </div>
+      <figure class="shot">
+        <video class="clip" src="media/double.mp4" poster="media/double.jpg" width="1280" height="654" autoplay muted loop playsinline aria-label="Korean subtitles with English below them on a Netflix show"></video>
+      </figure>
     </section>
 
     <section class="split reverse">
       <div class="split-text">
+        <h2>A dictionary that reads the sentence</h2>
+        <p>Korean words often have several unrelated meanings. The popup puts the meaning that fits the part of speech first, highlights the one that matches the English subtitle, and shows grammar patterns the word is part of.</p>
+        <p>Still unsure? <b>Ask AI</b> explains what the word is doing in that sentence. Right-click the word to mark it learning or known without leaving the popup.</p>
+        <p>Open the full entry in one click, click the word to pin the popup, or press <kbd>Esc</kbd> to close it and carry on watching.</p>
+      </div>
+      <figure class="shot">
+        <video class="clip" src="media/dictionary.mp4" poster="media/dictionary.jpg" width="1280" height="654" autoplay muted loop playsinline aria-label="Hovering the word 일본인과 pauses the show and opens its dictionary entry, then Ask AI explains it"></video>
+      </figure>
+    </section>
+
+    <section class="split">
+      <div class="split-text">
         <h2>The English steps back as you learn</h2>
-        <p>While a sentence still has words you don't know, the English goes on top so you can follow the story. Once you know them all, the Korean goes on top and the English blurs below it.</p>
+        <p>While a sentence still has words you don't know, the English goes on top so you can follow the story. Once you know them all, only the Korean is left. You choose whether the English blurs or disappears, and <kbd>E</kbd> brings it back.</p>
         <p>The more words you mark, the more of each episode you read in Korean.</p>
       </div>
-      <div class="compare" aria-hidden="true">
-        <div class="mock-player small">
-          <div class="mock-label">Unknown words</div>
-          <div class="line en">I'll be sure to keep this promise.</div>
-          <div class="line ko bottom"><span>이</span> <span class="w-unknown">약속</span>은 <span>꼭</span> <span class="w-unknown">지킬게요</span></div>
-        </div>
-        <div class="mock-player small">
-          <div class="mock-label">All words known</div>
-          <div class="line ko"><span>이</span> <span>약속</span>은 <span>꼭</span> <span>지킬게요</span></div>
-          <div class="line en bottom blurred">I'll be sure to keep this promise.</div>
-        </div>
+      <div class="compare">
+        <figure class="shot">
+          <img class="clip" src="media/english-first.jpg" width="1280" height="654" alt="English on top, Korean below with unknown words in yellow" loading="lazy" />
+          <figcaption>Unknown words: English first</figcaption>
+        </figure>
+        <figure class="shot">
+          <img class="clip" src="media/korean-only.jpg" width="1280" height="654" alt="Only the Korean line 아, 싫으면 말고요" loading="lazy" />
+          <figcaption>All words known: Korean only</figcaption>
+        </figure>
       </div>
     </section>
 
-    <section id="reviews" class="split">
+    <section id="reviews" class="split reverse">
       <div class="split-text">
         <h2>Review sentences in the scene they came from</h2>
-        <p>Marking a word "learning" saves its sentence. Start review replays each saved sentence from the episode, with the lines around it, then pauses with the English hidden.</p>
-        <p>Answer <b>Incorrect</b> or <b>Correct</b>. Each sentence comes back on a spaced schedule: tomorrow for a new one, then 2.5 times longer after each correct answer.</p>
+        <p>When you watch a sentence whose words you know or are learning, it is saved. Each day the Review page suggests some of them, spread across your learning words, and you add the ones you want to review.</p>
+        <p>Start review replays each sentence from its episode, with the lines around it, then asks what it means. Reveal the English and answer <b>Understood? No</b> or <b>Yes</b>. Sentences come back on Anki's schedule: in minutes at first, then tomorrow, then at longer and longer intervals.</p>
         <p>Reviews play on a separate Netflix profile of your choice, so your place in each show and your Continue Watching row stay as they were. When the review ends you are back where you started.</p>
       </div>
-      <div class="mock-player small review" aria-hidden="true">
-        <div class="rv-panel">
-          <div class="rv-top"><span>Review 3 of 12</span><span class="muted">✕</span></div>
-          <div class="rv-answer"><span class="rv-wrong">Incorrect <kbd>1</kbd></span><span class="rv-right">Correct <kbd>2</kbd></span></div>
-        </div>
-        <div class="line ko"><span>우리</span> <span>어디서</span> <span class="w-learning">만난</span> <span>적</span> <span>있지</span> <span>않아요?</span></div>
-        <div class="line en bottom hidden-quiz">English hidden until you answer</div>
+      <figure class="shot">
+        <video class="clip" src="media/review.mp4" poster="media/review.jpg" width="1280" height="654" autoplay muted loop playsinline aria-label="A review: the scene plays, the sentence appears, the English is revealed and the answer is No"></video>
+      </figure>
+    </section>
+
+    <section class="split">
+      <div class="split-text">
+        <h2>Words graduate on their own</h2>
+        <p>A learning word becomes known once several of its sentences are on long review intervals. Promotions on the Review page lists these words, and the words you marked known yourself, so you can approve or deny each one before it joins the list of words you know.</p>
       </div>
+      <figure class="shot">
+        <img class="clip" src="media/review-page.jpg" width="820" height="654" alt="The Review page: Promotions with 하다 waiting for approval, and today's suggested sentences" loading="lazy" />
+      </figure>
     </section>
 
     <section id="remote" class="split reverse">
@@ -196,7 +192,7 @@
   </main>
 
   <footer>
-    <p>Smarter Subtitles is an independent project and is not affiliated with or endorsed by Netflix. Netflix is a trademark of Netflix, Inc.</p>
+    <p>Smarter Subtitles is an independent project and is not affiliated with or endorsed by Netflix. Netflix is a trademark of Netflix, Inc. Clips are from <i>100 Days of Deception</i> and <i>Take Charge of My Heart</i> on Netflix.</p>
     <p>Dictionary data: <a href="https://krdict.korean.go.kr/">한국어기초사전</a> and <a href="https://opendict.korean.go.kr/">우리말샘</a>, National Institute of Korean Language. Word analysis: <a href="https://github.com/bab2min/Kiwi">Kiwi</a> (Apache-2.0).</p>
   </footer>
 </body>
