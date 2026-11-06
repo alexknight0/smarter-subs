@@ -9,6 +9,7 @@
   --name: #b9d7ff;
   --accent: #e5484d;
   --link: #8ab4f8;
+  --header-h: 56px;
   --ko-font: 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
 }
 
@@ -99,7 +100,8 @@ p {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 12px clamp(16px, 4vw, 48px);
+  height: var(--header-h);
+  padding: 0 clamp(16px, 4vw, 48px);
   background: rgba(17, 17, 17, 0.85);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid #222;
@@ -130,138 +132,6 @@ p {
   color: #fff;
 }
 
-@media (max-width: 640px) {
-  .top nav a:not([href='#features']) {
-    display: none;
-  }
-}
-
-main > section {
-  max-width: 1160px;
-  margin: 0 auto;
-  padding: clamp(48px, 8vw, 96px) clamp(16px, 4vw, 48px);
-}
-
-/* Hero */
-
-/* Text above, then the clip at the full page width so its subtitles are readable. */
-.hero {
-  display: grid;
-  gap: clamp(28px, 4vw, 48px);
-}
-
-.hero-text {
-  max-width: 820px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-/* Keep the title on one line on wider screens. */
-@media (min-width: 740px) {
-  .hero-text {
-    max-width: none;
-  }
-  .hero-text h1 {
-    white-space: nowrap;
-  }
-}
-
-.lead {
-  font-size: 19px;
-  color: #ccc;
-}
-
-.hero-text h1 {
-  margin-bottom: 0.15em;
-}
-
-.subhead {
-  font-size: clamp(22px, 2.8vw, 30px);
-  font-weight: 500;
-  color: #ddd;
-  margin: 0 0 0.7em;
-  line-height: 1.25;
-}
-
-.hero-cards {
-  list-style: none;
-  padding: 0;
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 16px;
-  max-width: 980px;
-  text-align: left;
-}
-
-.hcard {
-  flex: 0 1 auto;
-  max-width: 300px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 16px 20px;
-  border: 1px solid #333;
-  border-radius: 14px;
-  background: #171717;
-}
-
-.hcard p {
-  margin: 0;
-  font-size: clamp(14px, 1.4vw, 17px);
-  color: #ddd;
-  line-height: 1.35;
-}
-
-.hcard-icon {
-  flex: none;
-  color: #8ab4f8;
-}
-
-@media (max-width: 560px) {
-  .hero-cards {
-    flex-direction: column;
-    align-items: stretch;
-    max-width: 360px;
-  }
-  .hcard {
-    max-width: none;
-  }
-}
-
-.soon {
-  display: inline-block;
-  padding: 10px 18px;
-  font-weight: 600;
-  border: 1px solid #444;
-  border-radius: 999px;
-  color: #ddd;
-}
-
-/* Clips and stills from screen recordings */
-
-.shot {
-  margin: 0;
-}
-
-.clip {
-  display: block;
-  width: 100%;
-  margin-inline: auto;
-  height: auto;
-  border-radius: 12px;
-  background: #000;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px #2a2a2a;
-}
-
-.shot figcaption {
-  margin-top: 12px;
-  text-align: center;
-  font-size: 14px;
-  color: var(--muted);
-}
-
 .w-learning {
   text-decoration: underline dotted 2px;
   text-underline-offset: 0.18em;
@@ -271,75 +141,200 @@ main > section {
   text-decoration: none;
 }
 
-/* Feature grid */
+main > section {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: clamp(48px, 8vw, 96px) clamp(16px, 4vw, 48px);
+}
 
-.features h2,
-.faq h2,
-.sync h2 {
+/* Hero: title, feature cards, and the clip of the active card, all on one screen. The clip
+   takes whatever height is left (.stage-wrap is a size container), at its own aspect ratio. */
+
+main > section.hero {
+  max-width: 1500px;
+  height: calc(100svh - var(--header-h));
+  min-height: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 2vh, 20px);
+  padding: clamp(12px, 2.5vh, 28px) clamp(16px, 3vw, 40px) clamp(16px, 3vh, 32px);
+}
+
+.hero-text {
+  text-align: center;
+}
+
+.hero-text h1 {
+  font-size: clamp(30px, 4.6vh, 48px);
+  margin-bottom: 0.1em;
+}
+
+.subhead {
+  font-size: clamp(19px, 2.8vh, 28px);
+  font-weight: 500;
+  color: #ddd;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.hero-cards {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.hcard {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border: 1px solid #333;
+  border-radius: 14px;
+  background: #171717;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.hcard p {
+  margin: 0;
+  font-size: clamp(13px, 1.9vh, 16px);
+  color: #ddd;
+  line-height: 1.35;
+}
+
+.hcard-icon {
+  flex: none;
+  width: clamp(30px, 4.6vh, 40px);
+  height: auto;
+  color: #8ab4f8;
+}
+
+/* Cards with a clip */
+
+.hcard[data-clip] {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hcard[data-clip]:hover,
+.hcard.active {
+  border-color: #555;
+  background: #1e1e1e;
+}
+
+.hcard[data-clip].active {
+  border-color: #8ab4f8;
+}
+
+.hcard:focus-visible {
+  outline: 2px solid #8ab4f8;
+  outline-offset: 2px;
+}
+
+/* How far through its clip the active card is; it moves on to the next card when full. */
+.hcard.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: calc(var(--progress, 0) * 100%);
+  background: #8ab4f8;
+}
+
+/* Hovered: the clip loops instead of moving on, so the bar is dimmed. */
+.hcard.active.held::after {
+  opacity: 0.35;
+}
+
+.stage-wrap {
+  flex: 1;
+  min-height: 0;
+  container-type: size;
+  display: grid;
+  place-items: center;
+}
+
+.stage {
+  position: relative;
+  width: min(100cqw, 100cqh * 1280 / 654);
+  aspect-ratio: 1280 / 654;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #000;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px #2a2a2a;
+}
+
+.stage > [data-pane] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.stage > .on {
+  opacity: 1;
+}
+
+.stage video {
+  object-fit: contain;
+}
+
+.remote-pane {
+  background: radial-gradient(circle at 50% 45%, #232a36, #0b0b0b 70%);
+}
+
+.remote-pane .phone {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(var(--phone-scale, 0.8));
+}
+
+@media (max-width: 1100px) {
+  .hero-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Phones: the clip goes above the cards and stays in view while they scroll past. */
+@media (max-width: 640px) {
+  main > section.hero {
+    height: auto;
+    min-height: 0;
+  }
+  .stage-wrap {
+    flex: none;
+    container-type: normal;
+    display: block;
+    order: 1;
+    position: sticky;
+    top: var(--header-h);
+    z-index: 5;
+    padding: 6px 0 10px;
+    background: var(--bg);
+  }
+  .stage {
+    width: 100%;
+  }
+  .hero-cards {
+    grid-template-columns: 1fr;
+    order: 2;
+  }
+  .hcard p {
+    font-size: 15px;
+  }
+}
+
+.faq h2 {
   text-align: center;
   margin-bottom: 1.2em;
-}
-
-/* Text beside a picture */
-
-.split {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: clamp(28px, 5vw, 64px);
-  align-items: center;
-}
-
-.split.reverse .split-text {
-  order: 2;
-}
-
-.split-text p {
-  color: #c8c8c8;
-}
-
-@media (max-width: 860px) {
-  .split {
-    grid-template-columns: 1fr;
-  }
-  .split.reverse .split-text {
-    order: 0;
-  }
-}
-
-/* Text above a full-width clip or still */
-
-.wide {
-  display: grid;
-  gap: clamp(24px, 3vw, 36px);
-  justify-items: center;
-  text-align: center;
-}
-
-.wide .split-text {
-  max-width: 760px;
-}
-
-.wide .split-text p:last-child {
-  margin-bottom: 0;
-}
-
-.wide .shot {
-  width: 100%;
-}
-
-.compare {
-  display: grid;
-  gap: clamp(24px, 3vw, 36px);
-}
-
-/* A page of the extension's UI: its text is already large, so it needn't be as wide. */
-.clip.page {
-  max-width: 860px;
-}
-
-/* The vocabulary page is near-square, so keep it narrower. */
-.clip.vocab {
-  max-width: 620px;
 }
 
 /* Phone picture */
@@ -445,18 +440,7 @@ main > section {
   border-radius: 12px;
 }
 
-/* Sync, FAQ, footer */
-
-.sync {
-  text-align: center;
-}
-
-.sync p {
-  max-width: 680px;
-  margin-left: auto;
-  margin-right: auto;
-  color: #c8c8c8;
-}
+/* FAQ, footer */
 
 .faq {
   max-width: 780px !important;

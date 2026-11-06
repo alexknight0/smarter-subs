@@ -1,4 +1,10 @@
-"""Smoke test for the Smarter Subtitles site: layout on desktop and phone, clips play, stills load, no console errors.
+"""Smoke test for the Smarter Subtitles site: the feature cards drive the clip below them.
+
+Checks: the hero fits one desktop screen; the first card's clip plays on load and only one
+clip plays at a time; the active card's progress bar fills; hovering a card plays its clip
+and keeps it on a loop; cards without a clip do nothing; a clip ending moves on to the next
+card; the remote card shows the drawn phone and moves on by itself; on a phone the page fits
+the width and tapping a card switches the clip; no console errors.
 
 Run: ~/projects/ai-tool-venv/bin/python3 tests/test_site.py [base-url]
 Without a URL it serves the repo folder itself. Screenshots go to ~/.tmp/smarter-subs-site-*.png.
@@ -14,49 +20,78 @@ from playwright.sync_api import sync_playwright
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT = pathlib.Path.home() / ".tmp"
-CLIPS = 5  # hero (both languages), dictionary, hide, customise, reviews
-STILLS = 1  # Vocabulary page
+ORDER = ["double", "dictionary", "review", "customize", "hide", "remote"]  # cards with a clip, left to right
+STATIC_CARDS = 2  # Chrome extension, built for English natives
 
-# Every <video> has loaded a frame and is playing; every <img class="clip"> has loaded.
-MEDIA_STATE = """() => ({
-  videos: [...document.querySelectorAll('video.clip')].map(v => ({
-    src: v.getAttribute('src'), ready: v.readyState, paused: v.paused, muted: v.muted, loop: v.loop,
-  })),
-  images: [...document.querySelectorAll('img.clip')].map(i => ({
-    src: i.getAttribute('src'), ok: i.complete && i.naturalWidth > 0,
-  })),
+STATE = """() => ({
+  active: [...document.querySelectorAll('.hcard.active')].map(c => c.dataset.clip),
+  shown: [...document.querySelectorAll('.stage > .on')].map(p => p.dataset.pane),
+  playing: [...document.querySelectorAll('.stage video')].filter(v => !v.paused).map(v => v.dataset.pane),
+  progress: parseFloat(document.querySelector('.hcard.active')?.style.getPropertyValue('--progress') || '0'),
 })"""
 
 
+class RangeHandler(http.server.SimpleHTTPRequestHandler):
+    """SimpleHTTPRequestHandler plus byte ranges, which Chrome needs to seek in a video (GitHub Pages has them)."""
+
+    def log_message(self, *a):
+        pass
+
+    def send_head(self):
+        rng = self.headers.get("Range")
+        path = pathlib.Path(self.translate_path(self.path))
+        if not rng or not path.is_file():
+            return super().send_head()
+        size = path.stat().st_size
+        start, _, end = rng.removeprefix("bytes=").partition("-")
+        start = int(start or 0)
+        end = min(int(end) if end else size - 1, size - 1)
+        f = open(path, "rb")
+        f.seek(start)
+        self.send_response(206)
+        self.send_header("Content-Type", self.guess_type(str(path)))
+        self.send_header("Accept-Ranges", "bytes")
+        self.send_header("Content-Range", f"bytes {start}-{end}/{size}")
+        self.send_header("Content-Length", str(end - start + 1))
+        self.end_headers()
+        self._remaining = end - start + 1
+        return f
+
+    def copyfile(self, source, outputfile):
+        remaining = getattr(self, "_remaining", None)
+        if remaining is None:
+            return super().copyfile(source, outputfile)
+        outputfile.write(source.read(remaining))
+
+
 def serve():
-    handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=str(ROOT))
-    handler.func.log_message = lambda *a: None
+    handler = functools.partial(RangeHandler, directory=str(ROOT))
     server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), handler)
     threading.Thread(target=server.serve_forever, daemon=True).start()
     return f"http://127.0.0.1:{server.server_port}/"
 
 
-def check_media(page):
-    state = page.evaluate(MEDIA_STATE)
-    assert len(state["videos"]) == CLIPS, state["videos"]
-    assert len(state["images"]) == STILLS, state["images"]
-    for v in state["videos"]:
-        assert v["muted"] and v["loop"], v
-    # Chrome pauses muted autoplay videos while they're off screen and lazy images load
-    # when near the viewport, so check each one after scrolling to it.
-    for i in range(CLIPS):
-        page.locator("video.clip").nth(i).scroll_into_view_if_needed()
-        page.wait_for_function(
-            "i => { const v = document.querySelectorAll('video.clip')[i]; return v.readyState >= 2 && !v.paused; }",
-            arg=i, timeout=10000,
-        )
-    for i in range(STILLS):
-        page.locator("img.clip").nth(i).scroll_into_view_if_needed()
-        page.wait_for_function(
-            "i => { const m = document.querySelectorAll('img.clip')[i]; return m.complete && m.naturalWidth > 0; }",
-            arg=i, timeout=10000,
-        )
-    page.evaluate("window.scrollTo(0, 0)")
+def wait_active(page, clip, playing=True):
+    """Wait until `clip` is the only active card and shown pane (and, for videos, the only one playing)."""
+    page.wait_for_function(
+        """([clip, playing]) => {
+          const s = (%s)();
+          return s.active.join() === clip && s.shown.join() === clip &&
+            (!playing || s.playing.join() === clip);
+        }""" % STATE,
+        arg=[clip, playing], timeout=10000,
+    )
+
+
+def card(page, clip):
+    return page.locator(f'.hcard[data-clip="{clip}"]')
+
+
+def end_clip(page, clip):
+    # Wait for playback to get going first: a seek straight after show() can be lost to its rewind.
+    sel = f".stage video[data-pane='{clip}']"
+    page.wait_for_function("s => document.querySelector(s).currentTime > 0.3", arg=sel, timeout=10000)
+    page.evaluate("s => { const v = document.querySelector(s); v.currentTime = v.duration - 0.3; }", sel)
 
 
 def main():
@@ -71,27 +106,69 @@ def main():
         page.on("console", lambda m: m.type == "error" and errors.append(m.text))
         page.on("pageerror", lambda e: errors.append(str(e)))
         page.goto(base)
-        assert page.locator("#demo, script[src='demo.js']").count() == 0
-        check_media(page)
-        print("1/3: desktop: all clips play and all stills load")
+        assert page.locator(".hcard").count() == len(ORDER) + STATIC_CARDS
+        assert [c.get_attribute("data-clip") for c in page.locator(".hcard[data-clip]").all()] == ORDER
+        for v in page.locator(".stage video").all():
+            assert v.evaluate("v => v.muted"), v
+        bottom = page.evaluate("document.querySelector('.stage').getBoundingClientRect().bottom")
+        assert bottom <= 860, f"clip ends at {bottom}px, below the screen"
+        wait_active(page, "double")
+        page.wait_for_timeout(1500)
+        s = page.evaluate(STATE)
+        assert 0 < s["progress"] < 1, s
+        page.mouse.move(5, 845)  # off the cards, so nothing is held
+        print("1/6: desktop: fits the screen, first clip plays alone, progress bar fills")
         page.screenshot(path=str(OUT / "smarter-subs-site-desktop.png"))
-        page.screenshot(path=str(OUT / "smarter-subs-site-full.png"), full_page=True)
+
+        # Hover plays that card's clip, and holds it on a loop while hovered.
+        card(page, "review").hover()
+        wait_active(page, "review")
+        assert page.evaluate("document.querySelector('.hcard.active').classList.contains('held')")
+        end_clip(page, "review")
+        page.wait_for_timeout(1200)
+        wait_active(page, "review")
+        t = page.evaluate("document.querySelector(`.stage video[data-pane='review']`).currentTime")
+        assert t < 2, f"hovered clip didn't start again at its end (at {t}s)"
+        page.locator(".hcard:not([data-clip])").first.hover()
+        page.wait_for_timeout(300)
+        wait_active(page, "review")
+        print("2/6: hover plays a card's clip and loops it; cards without a clip change nothing")
+
+        # Not hovered: a clip ending moves on to the next card.
+        page.mouse.move(5, 845)
+        end_clip(page, "review")
+        wait_active(page, "customize")
+        end_clip(page, "customize")
+        wait_active(page, "hide")
+        end_clip(page, "hide")
+        wait_active(page, "remote", playing=False)
+        assert page.evaluate(STATE)["playing"] == []
+        page.screenshot(path=str(OUT / "smarter-subs-site-remote.png"))
+        print("3/6: clips end and hand over to the next card, left to right")
+
+        # The remote is a drawing with a fixed time; it wraps round to the first card.
+        wait_active(page, "double")
+        print("4/6: remote card moves on by itself and wraps to the first card")
 
         # Phone
         phone = browser.new_page(viewport={"width": 390, "height": 844}, has_touch=True, is_mobile=True)
         phone.on("console", lambda m: m.type == "error" and errors.append(m.text))
         phone.on("pageerror", lambda e: errors.append(str(e)))
         phone.goto(base)
-        check_media(phone)
+        wait_active(phone, "double")
         width = phone.evaluate("document.documentElement.scrollWidth")
         assert width <= 390, f"page is {width}px wide on a phone"
-        print("2/3: phone: clips play (inline), page fits the width")
+        card(phone, "dictionary").tap()
+        wait_active(phone, "dictionary")
+        held = phone.evaluate("document.querySelector('.hcard.active').classList.contains('held')")
+        assert not held, "a tap shouldn't hold the card like a hover"
         phone.screenshot(path=str(OUT / "smarter-subs-site-phone.png"))
         phone.screenshot(path=str(OUT / "smarter-subs-site-phone-full.png"), full_page=True)
+        print("5/6: phone: fits the width, tapping a card switches the clip")
 
         browser.close()
     assert not errors, errors
-    print("3/3: no console errors")
+    print("6/6: no console errors")
     print("PASS")
 
 

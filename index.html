@@ -8,152 +8,124 @@
   <meta name="theme-color" content="#111111" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="style.css" />
+  <script src="cards.js" defer></script>
 </head>
 <body>
   <header class="top">
     <a class="brand" href="./"><img src="icon.svg" alt="" width="28" height="28" /> Smarter Subtitles</a>
     <nav>
-      <a href="#dictionary">Dictionary</a>
-      <a href="#customize">Customise</a>
-      <a href="#reviews">Reviews</a>
-      <a href="#vocabulary">Vocabulary</a>
-      <a href="#remote">Phone remote</a>
       <a href="#faq">FAQ</a>
     </nav>
   </header>
 
   <main>
+    <!-- Hovering a card with data-clip plays its clip; otherwise they play in order (cards.js). -->
     <section class="hero">
       <div class="hero-text">
         <h1>You're already watching the shows.</h1>
         <p class="subhead">Learn the language while you do.</p>
-        <ul class="hero-cards">
-          <li class="hcard">
-            <svg class="hcard-icon" viewBox="0 0 48 48" width="40" height="40" aria-hidden="true">
-              <circle cx="24" cy="24" r="21" fill="none" stroke="currentColor" stroke-width="3" />
-              <circle cx="24" cy="24" r="8" fill="none" stroke="currentColor" stroke-width="3" />
-              <path d="M24 16 H44" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-              <path d="M16.5 20 L7 36.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-              <path d="M31.5 20 L22 36.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-            </svg>
-            <p>A Chrome extension for Netflix, coming soon to the Chrome Web Store.</p>
-          </li>
-          <li class="hcard">
-            <svg class="hcard-icon" viewBox="0 0 48 48" width="40" height="40" aria-hidden="true">
-              <rect x="6" y="14" width="36" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="3" />
-              <rect x="6" y="28" width="26" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="3" />
-            </svg>
-            <p>Displays two sets of subtitles at once, so you can learn while you watch</p>
-          </li>
-          <li class="hcard">
-            <svg class="hcard-icon" viewBox="0 0 48 48" width="40" height="40" aria-hidden="true">
-              <circle cx="24" cy="24" r="18" fill="none" stroke="currentColor" stroke-width="3" />
-              <ellipse cx="24" cy="24" rx="8" ry="18" fill="none" stroke="currentColor" stroke-width="3" />
-              <path d="M6 24 H42" stroke="currentColor" stroke-width="3" />
-              <path d="M9 15 H39 M9 33 H39" stroke="currentColor" stroke-width="3" />
-            </svg>
-            <p>Built for English natives learning Korean. Expanding to more languages soon.</p>
-          </li>
-          <li class="hcard">
-            <svg class="hcard-icon" viewBox="0 0 48 48" width="40" height="40" aria-hidden="true">
-              <path d="M30 8 L40 18 L18 40 L8 40 L8 30 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" />
-              <path d="M26 12 L36 22" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-            </svg>
-            <p>View definitions on hover. Mark the words you understand and the words you don't.</p>
-          </li>
-          <li class="hcard">
-            <svg class="hcard-icon" viewBox="0 0 48 48" width="40" height="40" aria-hidden="true">
-              <path d="M40 24 a16 16 0 1 1 -4.7 -11.3" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-              <path d="M40 8 V16 H32" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-            <p>Review sentences containing words you don't understand</p>
-          </li>
-        </ul>
       </div>
 
-      <figure class="shot">
-        <video class="clip" src="media/double.mp4" poster="media/double.jpg" width="1280" height="654" autoplay muted loop playsinline aria-label="A Netflix show with the Korean subtitle and its English translation shown together"></video>
-        <figcaption>Netflix shows one track at a time. Smarter Subtitles shows both, so you can read the Korean and check the English without pausing.</figcaption>
-      </figure>
-    </section>
+      <ul class="hero-cards">
+        <li class="hcard">
+          <svg class="hcard-icon" viewBox="0 0 48 48" width="40" height="40" aria-hidden="true">
+            <circle cx="24" cy="24" r="21" fill="none" stroke="currentColor" stroke-width="3" />
+            <circle cx="24" cy="24" r="8" fill="none" stroke="currentColor" stroke-width="3" />
+            <path d="M24 16 H44" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+            <path d="M16.5 20 L7 36.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+            <path d="M31.5 20 L22 36.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+          </svg>
+          <p>A Chrome extension for Netflix, coming soon to the Chrome Web Store.</p>
+        </li>
+        <li class="hcard" data-clip="double" tabindex="0">
+          <svg class="hcard-icon" viewBox="0 0 48 48" width="40" height="40" aria-hidden="true">
+            <rect x="6" y="14" width="36" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="3" />
+            <rect x="6" y="28" width="26" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="3" />
+          </svg>
+          <p>Displays two sets of subtitles at once, so you can learn while you watch</p>
+        </li>
+        <li class="hcard">
+          <svg class="hcard-icon" viewBox="0 0 48 48" width="40" height="40" aria-hidden="true">
+            <circle cx="24" cy="24" r="18" fill="none" stroke="currentColor" stroke-width="3" />
+            <ellipse cx="24" cy="24" rx="8" ry="18" fill="none" stroke="currentColor" stroke-width="3" />
+            <path d="M6 24 H42" stroke="currentColor" stroke-width="3" />
+            <path d="M9 15 H39 M9 33 H39" stroke="currentColor" stroke-width="3" />
+          </svg>
+          <p>Built for English natives learning Korean. Expanding to more languages soon.</p>
+        </li>
+        <li class="hcard" data-clip="dictionary" tabindex="0">
+          <svg class="hcard-icon" viewBox="0 0 48 48" width="40" height="40" aria-hidden="true">
+            <path d="M30 8 L40 18 L18 40 L8 40 L8 30 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" />
+            <path d="M26 12 L36 22" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+          </svg>
+          <p>View definitions on hover. Mark the words you understand and the words you don't.</p>
+        </li>
+        <li class="hcard" data-clip="review" tabindex="0">
+          <svg class="hcard-icon" viewBox="0 0 48 48" width="40" height="40" aria-hidden="true">
+            <path d="M40 24 a16 16 0 1 1 -4.7 -11.3" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+            <path d="M40 8 V16 H32" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <p>Review sentences containing words you don't understand</p>
+        </li>
+        <li class="hcard" data-clip="customize" tabindex="0">
+          <!-- Artist's paint palette -->
+          <svg class="hcard-icon" viewBox="0 0 48 48" width="40" height="40" aria-hidden="true">
+            <path d="M24 6 C13 6 5 13.5 5 23 C5 33 13 41 23 41 C26.5 41 28 39 27 36.5 C26 34 27 31.5 30 31.5 H35 C39.5 31.5 43 28 43 23.5 C43 13.5 34.5 6 24 6 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" />
+            <circle cx="15" cy="25" r="3" fill="currentColor" />
+            <circle cx="17" cy="15.5" r="3" fill="currentColor" />
+            <circle cx="26.5" cy="12.5" r="3" fill="currentColor" />
+            <circle cx="35" cy="18" r="3" fill="currentColor" />
+          </svg>
+          <p>Fully customizable to fit your needs.</p>
+        </li>
+        <li class="hcard" data-clip="hide" tabindex="0">
+          <!-- Difficulty scale: bars rising from easy to hard -->
+          <svg class="hcard-icon" viewBox="0 0 48 48" width="40" height="40" aria-hidden="true">
+            <rect x="6" y="30" width="8" height="12" rx="1.5" fill="currentColor" />
+            <rect x="20" y="20" width="8" height="22" rx="1.5" fill="currentColor" />
+            <rect x="34" y="8" width="8" height="34" rx="1.5" fill="none" stroke="currentColor" stroke-width="3" />
+          </svg>
+          <p>Choose your difficulty. Easy subtitles are displayed in Korean, while hard subtitles are displayed in English.</p>
+        </li>
+        <li class="hcard" data-clip="remote" tabindex="0">
+          <!-- TV remote -->
+          <svg class="hcard-icon" viewBox="0 0 48 48" width="40" height="40" aria-hidden="true">
+            <rect x="14" y="4" width="20" height="40" rx="6" fill="none" stroke="currentColor" stroke-width="3" />
+            <circle cx="24" cy="15" r="4.5" fill="none" stroke="currentColor" stroke-width="3" />
+            <circle cx="20" cy="27" r="2" fill="currentColor" />
+            <circle cx="28" cy="27" r="2" fill="currentColor" />
+            <circle cx="20" cy="35" r="2" fill="currentColor" />
+            <circle cx="28" cy="35" r="2" fill="currentColor" />
+          </svg>
+          <p>Casting to your TV? Open the remote on your phone to control playback from your couch.</p>
+        </li>
+      </ul>
 
-    <section id="dictionary" class="wide">
-      <div class="split-text">
-        <h2>A dictionary that reads the sentence</h2>
-        <p>Hover a word to pause the show and open its entry. The popup leads with the meaning that fits the sentence and shows the grammar patterns it's part of.</p>
-        <p>Still unsure? <b>Ask AI</b> explains the word in context. Right-click to mark it learning or known, or click to pin the popup. <kbd>Esc</kbd> closes it.</p>
-      </div>
-      <figure class="shot">
-        <video class="clip" src="media/dictionary.mp4" poster="media/dictionary.jpg" width="1280" height="654" autoplay muted loop playsinline aria-label="Hovering the word 꼭대기 pauses the show and opens its dictionary entry, then the word is marked learning"></video>
-      </figure>
-    </section>
-
-    <section id="hide" class="wide">
-      <div class="split-text">
-        <h2>English only when you need it</h2>
-        <p>Once you know every word in a sentence, its English blurs away so you read the Korean first. Press <kbd>E</kbd> or hover to check yourself, and allow a few unknown words per line if you like.</p>
-      </div>
-      <figure class="shot">
-        <video class="clip" src="media/hide.mp4" poster="media/hide.jpg" width="1280" height="580" autoplay muted loop playsinline aria-label="Lines with unknown words show English on top; lines whose words are all known show Korean only"></video>
-        <figcaption>Words you don't know yet are <span class="w-unknown">yellow</span>. Right-click one for <span class="w-learning">learning</span>, again for known. Names are <span class="w-name">blue</span> and never counted. Your marks follow you into every episode.</figcaption>
-      </figure>
-    </section>
-
-    <section id="customize" class="wide">
-      <div class="split-text">
-        <h2>Fully customisable to fit your exact needs</h2>
-        <p>Make it yours. Pick which language sits on top and how big each one is, choose the colours and underlines for unknown, learning and name words, and set how the English is hidden and how many unknown words a line may have. Every setting updates live.</p>
-      </div>
-      <figure class="shot">
-        <video class="clip" src="media/customize.mp4" poster="media/customize.jpg" width="1280" height="640" autoplay muted loop playsinline aria-label="Resizing the subtitles live with the size sliders, then the Appearance page changing the colours for unknown, learning and name words with a colour picker"></video>
-      </figure>
-    </section>
-
-    <section id="reviews" class="wide">
-      <div class="split-text">
-        <h2>Review sentences in the scene they came from</h2>
-        <p>Sentences with words you're learning are saved as you watch. Each day the Review page suggests some to add, spread across those words.</p>
-        <p>A review replays the sentence in its scene, then asks what it means. Reveal the English and answer <b>Understood? No</b> or <b>Yes</b>; it comes back on Anki's schedule. Reviews run on a separate Netflix profile, so your watch progress stays put.</p>
-      </div>
-      <figure class="shot">
-        <video class="clip" src="media/review.mp4" poster="media/review.jpg" width="1280" height="654" autoplay muted loop playsinline aria-label="Two reviews back to back: each scene replays, the sentence appears, the English is revealed and answered"></video>
-      </figure>
-    </section>
-
-    <section id="vocabulary" class="wide">
-      <div class="split-text">
-        <h2>Track your vocabulary</h2>
-      </div>
-      <figure class="shot">
-        <img class="clip page vocab" src="media/vocabulary.jpg" width="835" height="885" alt="The Vocabulary page: a word count, Learning and Known tabs, and a table of words" loading="lazy" />
-      </figure>
-    </section>
-
-    <section id="remote" class="split reverse">
-      <div class="split-text">
-        <h2>A remote for the couch</h2>
-        <p>Casting to your TV? Open the remote on your phone and sign in with the same Google account.</p>
-        <p>It shows the subtitles in time with the show. Tap a word for its dictionary entry and mark it known, unknown or learning. Big buttons play, pause, jump between lines, skip 10 seconds and change the volume.</p>
-      </div>
-      <div class="phone" aria-hidden="true">
-        <div class="phone-screen">
-          <div class="ph-title">Smarter Subtitles remote</div>
-          <div class="ph-line"><span>괜찮아,</span> <span class="w-learning-ph">천천히</span> <span>해</span></div>
-          <div class="ph-en">It's okay, take your time.</div>
-          <div class="ph-card">
-            <div><b>천천히</b> <span class="w-learning">learning</span></div>
-            <div class="ph-btns"><span>Known</span><span>Unknown</span><span class="on">Learning</span></div>
-            <div class="ph-sense">1. <b>slowly</b>: at a slow, unhurried pace.</div>
+      <div class="stage-wrap">
+        <div class="stage">
+          <video class="clip on" data-pane="double" src="media/double.mp4" poster="media/double.jpg" width="1280" height="654" preload="auto" muted playsinline aria-label="A Netflix show with the Korean subtitle and its English translation shown together"></video>
+          <video class="clip" data-pane="dictionary" src="media/dictionary.mp4" poster="media/dictionary.jpg" width="1280" height="656" preload="auto" muted playsinline aria-label="Hovering the word 꼭대기 pauses the show and opens its dictionary entry, then the word is marked learning"></video>
+          <video class="clip" data-pane="review" src="media/review.mp4" poster="media/review.jpg" width="1280" height="654" preload="auto" muted playsinline aria-label="Two reviews back to back: each scene replays, the sentence appears, the English is revealed and answered"></video>
+          <video class="clip" data-pane="customize" src="media/customize.mp4" poster="media/customize.jpg" width="1280" height="640" preload="auto" muted playsinline aria-label="Resizing the subtitles live with the size sliders, then the Appearance page changing the colours for unknown, learning and name words with a colour picker"></video>
+          <video class="clip" data-pane="hide" src="media/hide.mp4" poster="media/hide.jpg" width="1280" height="580" preload="auto" muted playsinline aria-label="Lines with unknown words show English on top; lines whose words are all known show Korean only"></video>
+          <!-- No recording of the remote exists, so this is a drawing of it. -->
+          <div class="remote-pane" data-pane="remote" role="img" aria-label="The phone remote: the current subtitle, a dictionary card for a tapped word with Known, Unknown and Learning buttons, and playback buttons">
+            <div class="phone" aria-hidden="true">
+              <div class="phone-screen">
+                <div class="ph-title">Smarter Subtitles remote</div>
+                <div class="ph-line"><span>괜찮아,</span> <span class="w-learning-ph">천천히</span> <span>해</span></div>
+                <div class="ph-en">It's okay, take your time.</div>
+                <div class="ph-card">
+                  <div><b>천천히</b> <span class="w-learning">learning</span></div>
+                  <div class="ph-btns"><span>Known</span><span>Unknown</span><span class="on">Learning</span></div>
+                  <div class="ph-sense">1. <b>slowly</b>: at a slow, unhurried pace.</div>
+                </div>
+                <div class="ph-dock"><span>‹</span><span>❚❚</span><span>›</span></div>
+              </div>
+            </div>
           </div>
-          <div class="ph-dock"><span>‹</span><span>❚❚</span><span>›</span></div>
         </div>
       </div>
-    </section>
-
-    <section class="sync">
-      <h2>Everywhere you watch</h2>
-      <p>Sign in with Google and your marked words, word fixes, review sentences and settings sync between computers. Without signing in, everything stays on this computer.</p>
-      <p>Word analysis runs inside the extension with the <a href="https://github.com/bab2min/Kiwi">Kiwi</a> Korean morphological analyser, so subtitles aren't sent anywhere to be analysed.</p>
     </section>
 
     <section id="faq" class="faq">
@@ -169,6 +141,14 @@
       <details>
         <summary>Is it only for Korean?</summary>
         <p>The dictionary, word marking and reviews are built for Korean learners who read English. Showing two subtitle languages at once works for other language pairs too.</p>
+      </details>
+      <details>
+        <summary>Do my words sync between computers?</summary>
+        <p>Sign in with Google and your marked words, word fixes, review sentences and settings sync between computers. Without signing in, everything stays on this computer.</p>
+      </details>
+      <details>
+        <summary>Are the subtitles sent anywhere?</summary>
+        <p>Word analysis runs inside the extension with the <a href="https://github.com/bab2min/Kiwi">Kiwi</a> Korean morphological analyser, so subtitles aren't sent anywhere to be analysed. If you use Ask AI, the sentence you ask about goes to Gemini with your own API key.</p>
       </details>
       <details>
         <summary>Does it change my Netflix account?</summary>
