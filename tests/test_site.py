@@ -1,4 +1,4 @@
-"""Smoke test for the Dual Subs site: layout on desktop and phone, the interactive demo, no console errors.
+"""Smoke test for the Smarter Subtitles site: layout on desktop and phone, the interactive demo, no console errors.
 
 Run: ~/projects/ai-tool-venv/bin/python3 tests/test_site.py [base-url]
 Without a URL it serves the repo folder itself. Screenshots go to ~/.tmp/dual-subs-site-*.png.
