@@ -156,9 +156,78 @@ main > section {
   text-align: center;
 }
 
+/* Keep the title on one line on wider screens. */
+@media (min-width: 740px) {
+  .hero-text {
+    max-width: none;
+  }
+  .hero-text h1 {
+    white-space: nowrap;
+  }
+}
+
 .lead {
   font-size: 19px;
   color: #ccc;
+}
+
+.hero-text h1 {
+  margin-bottom: 0.15em;
+}
+
+.subhead {
+  font-size: clamp(22px, 2.8vw, 30px);
+  font-weight: 500;
+  color: #ddd;
+  margin: 0 0 0.7em;
+  line-height: 1.25;
+}
+
+.hero-cards {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  max-width: 980px;
+  text-align: left;
+}
+
+.hcard {
+  flex: 0 1 auto;
+  max-width: 300px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  border: 1px solid #333;
+  border-radius: 14px;
+  background: #171717;
+}
+
+.hcard p {
+  margin: 0;
+  font-size: clamp(14px, 1.4vw, 17px);
+  color: #ddd;
+  line-height: 1.35;
+}
+
+.hcard-icon {
+  flex: none;
+  color: #8ab4f8;
+}
+
+@media (max-width: 560px) {
+  .hero-cards {
+    flex-direction: column;
+    align-items: stretch;
+    max-width: 360px;
+  }
+  .hcard {
+    max-width: none;
+  }
 }
 
 .soon {
@@ -179,6 +248,7 @@ main > section {
 .clip {
   display: block;
   width: 100%;
+  margin-inline: auto;
   height: auto;
   border-radius: 12px;
   background: #000;
@@ -208,25 +278,6 @@ main > section {
 .sync h2 {
   text-align: center;
   margin-bottom: 1.2em;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-  gap: 18px;
-}
-
-.grid article {
-  padding: 22px;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-}
-
-.grid p {
-  margin: 0;
-  color: #c8c8c8;
-  font-size: 16px;
 }
 
 /* Text beside a picture */
@@ -260,6 +311,8 @@ main > section {
 .wide {
   display: grid;
   gap: clamp(24px, 3vw, 36px);
+  justify-items: center;
+  text-align: center;
 }
 
 .wide .split-text {
@@ -270,6 +323,10 @@ main > section {
   margin-bottom: 0;
 }
 
+.wide .shot {
+  width: 100%;
+}
+
 .compare {
   display: grid;
   gap: clamp(24px, 3vw, 36px);
@@ -278,6 +335,11 @@ main > section {
 /* A page of the extension's UI: its text is already large, so it needn't be as wide. */
 .clip.page {
   max-width: 860px;
+}
+
+/* The vocabulary page is near-square, so keep it narrower. */
+.clip.vocab {
+  max-width: 620px;
 }
 
 /* Phone picture */

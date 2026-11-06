@@ -13,8 +13,10 @@
   <header class="top">
     <a class="brand" href="./"><img src="icon.svg" alt="" width="28" height="28" /> Smarter Subtitles</a>
     <nav>
-      <a href="#features">Features</a>
+      <a href="#dictionary">Dictionary</a>
+      <a href="#customize">Customise</a>
       <a href="#reviews">Reviews</a>
+      <a href="#vocabulary">Vocabulary</a>
       <a href="#remote">Phone remote</a>
       <a href="#faq">FAQ</a>
     </nav>
@@ -23,127 +25,115 @@
   <main>
     <section class="hero">
       <div class="hero-text">
-        <h1>Learn Korean from the shows you already watch</h1>
-        <p class="lead">Smarter Subtitles is a Chrome extension that shows Korean and English Netflix subtitles at the same time, highlights the words you don't know yet, and hides the English once you can read the sentence yourself.</p>
-        <p class="cta"><span class="soon">Coming soon to the Chrome Web Store</span></p>
+        <h1>You're already watching the shows.</h1>
+        <p class="subhead">Learn the language while you do.</p>
+        <ul class="hero-cards">
+          <li class="hcard">
+            <svg class="hcard-icon" viewBox="0 0 48 48" width="40" height="40" aria-hidden="true">
+              <circle cx="24" cy="24" r="21" fill="none" stroke="currentColor" stroke-width="3" />
+              <circle cx="24" cy="24" r="8" fill="none" stroke="currentColor" stroke-width="3" />
+              <path d="M24 16 H44" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+              <path d="M16.5 20 L7 36.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+              <path d="M31.5 20 L22 36.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+            </svg>
+            <p>A Chrome extension for Netflix, coming soon to the Chrome Web Store.</p>
+          </li>
+          <li class="hcard">
+            <svg class="hcard-icon" viewBox="0 0 48 48" width="40" height="40" aria-hidden="true">
+              <rect x="6" y="14" width="36" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="3" />
+              <rect x="6" y="28" width="26" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="3" />
+            </svg>
+            <p>Displays two sets of subtitles at once, so you can learn while you watch</p>
+          </li>
+          <li class="hcard">
+            <svg class="hcard-icon" viewBox="0 0 48 48" width="40" height="40" aria-hidden="true">
+              <circle cx="24" cy="24" r="18" fill="none" stroke="currentColor" stroke-width="3" />
+              <ellipse cx="24" cy="24" rx="8" ry="18" fill="none" stroke="currentColor" stroke-width="3" />
+              <path d="M6 24 H42" stroke="currentColor" stroke-width="3" />
+              <path d="M9 15 H39 M9 33 H39" stroke="currentColor" stroke-width="3" />
+            </svg>
+            <p>Built for English natives learning Korean. Expanding to more languages soon.</p>
+          </li>
+          <li class="hcard">
+            <svg class="hcard-icon" viewBox="0 0 48 48" width="40" height="40" aria-hidden="true">
+              <path d="M30 8 L40 18 L18 40 L8 40 L8 30 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" />
+              <path d="M26 12 L36 22" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+            </svg>
+            <p>View definitions on hover. Mark the words you understand and the words you don't.</p>
+          </li>
+          <li class="hcard">
+            <svg class="hcard-icon" viewBox="0 0 48 48" width="40" height="40" aria-hidden="true">
+              <path d="M40 24 a16 16 0 1 1 -4.7 -11.3" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+              <path d="M40 8 V16 H32" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <p>Review sentences containing words you don't understand</p>
+          </li>
+        </ul>
       </div>
 
       <figure class="shot">
-        <video class="clip" src="media/hide.mp4" poster="media/hide.jpg" width="1280" height="654" autoplay muted loop playsinline aria-label="Netflix with Smarter Subtitles: lines with unknown words show English on top and Korean below, lines whose words are all known show Korean only"></video>
-        <figcaption>Lines with words you don't know show the English, with those words in <span class="w-unknown">yellow</span>. Lines you can read show only the Korean.</figcaption>
+        <video class="clip" src="media/double.mp4" poster="media/double.jpg" width="1280" height="654" autoplay muted loop playsinline aria-label="A Netflix show with the Korean subtitle and its English translation shown together"></video>
+        <figcaption>Netflix shows one track at a time. Smarter Subtitles shows both, so you can read the Korean and check the English without pausing.</figcaption>
       </figure>
     </section>
 
-    <section id="features" class="features">
-      <h2>What it does</h2>
-      <div class="grid">
-        <article>
-          <h3>Two subtitles, in step</h3>
-          <p>Korean and English appear and leave together, even when Netflix's two tracks are timed a little differently. You choose which language goes on top and how big each one is.</p>
-        </article>
-        <article>
-          <h3>Jump line by line</h3>
-          <p>Press <kbd>A</kbd> to hear the last line again and <kbd>D</kbd> to skip to the next one. The new line shows straight away, and playback starts just before it so you hear the first syllable. On-screen buttons do the same with the mouse.</p>
-        </article>
-        <article>
-          <h3>Hover for the dictionary</h3>
-          <p>Hovering a Korean word pauses the show and opens its entry from the National Institute of Korean Language's learners' dictionary, with the dictionary form (했어 → 하다) and grammar patterns such as -ㄴ 적이 있다.</p>
-        </article>
-        <article>
-          <h3>Your vocabulary, word by word</h3>
-          <p>Words you don't know yet are <span class="w-unknown">yellow</span>. Right-click one for <span class="w-learning">learning</span>, again for known. Names are <span class="w-name">blue</span> and never counted. Your marks follow you into every episode.</p>
-        </article>
-        <article>
-          <h3>English only when you need it</h3>
-          <p>When you know every word in a sentence, its English blurs or disappears so you read the Korean first. Press <kbd>E</kbd> or hover to check yourself. You can allow a few unknown words per sentence.</p>
-        </article>
-        <article>
-          <h3>A head start</h3>
-          <p>Start with a word list instead of marking 하다 and 사람 by hand: the NIKL vocabulary grades A to C, TOPIK beginner or intermediate words, or the most common words in Korean Netflix subtitles.</p>
-        </article>
-        <article>
-          <h3>Sentences, not lines</h3>
-          <p>Netflix often splits a sentence over two subtitles. Smarter Subtitles knows when a line carries on, shows "1/2" beside it, and judges the whole sentence when deciding whether you need the English.</p>
-        </article>
-        <article>
-          <h3>Other languages too</h3>
-          <p>When a character speaks English, Japanese or any language other than Korean, the English goes on top and is never hidden. This uses Netflix's forced subtitles, which some titles have.</p>
-        </article>
-        <article>
-          <h3>Ask AI and fix the analysis</h3>
-          <p>Stuck on a phrase? Ask AI explains the word in its sentence, using your own Gemini key. If a word was split wrongly, Fix lets you split or join it, and the fix applies everywhere.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="wide">
-      <div class="split-text">
-        <h2>Both languages at once</h2>
-        <p>Netflix only shows one subtitle track at a time. Smarter Subtitles shows the Korean and the English together, so you can hear the line, read it in Korean and check what it means without pausing.</p>
-        <p>Lines that belong to a longer sentence are marked "1/2" and "2/2".</p>
-      </div>
-      <figure class="shot">
-        <video class="clip" src="media/double.mp4" poster="media/double.jpg" width="1280" height="654" autoplay muted loop playsinline aria-label="Korean subtitles with English below them on a Netflix show"></video>
-      </figure>
-    </section>
-
-    <section class="wide">
+    <section id="dictionary" class="wide">
       <div class="split-text">
         <h2>A dictionary that reads the sentence</h2>
-        <p>Korean words often have several unrelated meanings. The popup puts the meaning that fits the part of speech first, highlights the one that matches the English subtitle, and shows grammar patterns the word is part of.</p>
-        <p>Still unsure? <b>Ask AI</b> explains what the word is doing in that sentence. Right-click the word to mark it learning or known without leaving the popup.</p>
-        <p>Open the full entry in one click, click the word to pin the popup, or press <kbd>Esc</kbd> to close it and carry on watching.</p>
+        <p>Hover a word to pause the show and open its entry. The popup leads with the meaning that fits the sentence and shows the grammar patterns it's part of.</p>
+        <p>Still unsure? <b>Ask AI</b> explains the word in context. Right-click to mark it learning or known, or click to pin the popup. <kbd>Esc</kbd> closes it.</p>
       </div>
       <figure class="shot">
-        <video class="clip" src="media/dictionary.mp4" poster="media/dictionary.jpg" width="1280" height="654" autoplay muted loop playsinline aria-label="Hovering the word 일본인과 pauses the show and opens its dictionary entry, then Ask AI explains it"></video>
+        <video class="clip" src="media/dictionary.mp4" poster="media/dictionary.jpg" width="1280" height="654" autoplay muted loop playsinline aria-label="Hovering the word 꼭대기 pauses the show and opens its dictionary entry, then the word is marked learning"></video>
       </figure>
     </section>
 
-    <section class="wide">
+    <section id="hide" class="wide">
       <div class="split-text">
-        <h2>The English steps back as you learn</h2>
-        <p>While a sentence still has words you don't know, the English goes on top so you can follow the story. Once you know them all, only the Korean is left. You choose whether the English blurs or disappears, and <kbd>E</kbd> brings it back.</p>
-        <p>The more words you mark, the more of each episode you read in Korean.</p>
+        <h2>English only when you need it</h2>
+        <p>Once you know every word in a sentence, its English blurs away so you read the Korean first. Press <kbd>E</kbd> or hover to check yourself, and allow a few unknown words per line if you like.</p>
       </div>
-      <div class="compare">
-        <figure class="shot">
-          <img class="clip" src="media/english-first.jpg" width="1280" height="654" alt="English on top, Korean below with unknown words in yellow" loading="lazy" />
-          <figcaption>Unknown words: English first</figcaption>
-        </figure>
-        <figure class="shot">
-          <img class="clip" src="media/korean-only.jpg" width="1280" height="654" alt="Only the Korean line 아, 싫으면 말고요" loading="lazy" />
-          <figcaption>All words known: Korean only</figcaption>
-        </figure>
+      <figure class="shot">
+        <video class="clip" src="media/hide.mp4" poster="media/hide.jpg" width="1280" height="580" autoplay muted loop playsinline aria-label="Lines with unknown words show English on top; lines whose words are all known show Korean only"></video>
+        <figcaption>Words you don't know yet are <span class="w-unknown">yellow</span>. Right-click one for <span class="w-learning">learning</span>, again for known. Names are <span class="w-name">blue</span> and never counted. Your marks follow you into every episode.</figcaption>
+      </figure>
+    </section>
+
+    <section id="customize" class="wide">
+      <div class="split-text">
+        <h2>Fully customisable to fit your exact needs</h2>
+        <p>Make it yours. Pick which language sits on top and how big each one is, choose the colours and underlines for unknown, learning and name words, and set how the English is hidden and how many unknown words a line may have. Every setting updates live.</p>
       </div>
+      <figure class="shot">
+        <video class="clip" src="media/customize.mp4" poster="media/customize.jpg" width="1280" height="640" autoplay muted loop playsinline aria-label="Resizing the subtitles live with the size sliders, then the Appearance page changing the colours for unknown, learning and name words with a colour picker"></video>
+      </figure>
     </section>
 
     <section id="reviews" class="wide">
       <div class="split-text">
         <h2>Review sentences in the scene they came from</h2>
-        <p>When you watch a sentence whose words you know or are learning, it is saved. Each day the Review page suggests some of them, spread across your learning words, and you add the ones you want to review.</p>
-        <p>Start review replays each sentence from its episode, with the lines around it, then asks what it means. Reveal the English and answer <b>Understood? No</b> or <b>Yes</b>. Sentences come back on Anki's schedule: in minutes at first, then tomorrow, then at longer and longer intervals.</p>
-        <p>Reviews play on a separate Netflix profile of your choice, so your place in each show and your Continue Watching row stay as they were. When the review ends you are back where you started.</p>
+        <p>Sentences with words you're learning are saved as you watch. Each day the Review page suggests some to add, spread across those words.</p>
+        <p>A review replays the sentence in its scene, then asks what it means. Reveal the English and answer <b>Understood? No</b> or <b>Yes</b>; it comes back on Anki's schedule. Reviews run on a separate Netflix profile, so your watch progress stays put.</p>
       </div>
       <figure class="shot">
-        <video class="clip" src="media/review.mp4" poster="media/review.jpg" width="1280" height="654" autoplay muted loop playsinline aria-label="A review: the scene plays, the sentence appears, the English is revealed and the answer is No"></video>
+        <video class="clip" src="media/review.mp4" poster="media/review.jpg" width="1280" height="654" autoplay muted loop playsinline aria-label="Two reviews back to back: each scene replays, the sentence appears, the English is revealed and answered"></video>
       </figure>
     </section>
 
-    <section class="wide">
+    <section id="vocabulary" class="wide">
       <div class="split-text">
-        <h2>Words graduate on their own</h2>
-        <p>A learning word becomes known once several of its sentences are on long review intervals. Promotions on the Review page lists these words, and the words you marked known yourself, so you can approve or deny each one before it joins the list of words you know.</p>
+        <h2>Track your vocabulary</h2>
       </div>
       <figure class="shot">
-        <img class="clip page" src="media/review-page.jpg" width="1640" height="1310" alt="The Review page: Promotions with 하다 waiting for approval, and today's suggested sentences" loading="lazy" />
+        <img class="clip page vocab" src="media/vocabulary.jpg" width="835" height="885" alt="The Vocabulary page: a word count, Learning and Known tabs, and a table of words" loading="lazy" />
       </figure>
     </section>
 
     <section id="remote" class="split reverse">
       <div class="split-text">
         <h2>A remote for the couch</h2>
-        <p>Casting the Chrome tab to your TV? Open the remote page on your phone and sign in with the same Google account.</p>
-        <p>Your phone shows the subtitles in time with the show. Tap a word for its dictionary entry and mark it known, unknown or learning. Big buttons play, pause, jump between lines and skip 10 seconds, and you can change the volume from there too.</p>
+        <p>Casting to your TV? Open the remote on your phone and sign in with the same Google account.</p>
+        <p>It shows the subtitles in time with the show. Tap a word for its dictionary entry and mark it known, unknown or learning. Big buttons play, pause, jump between lines, skip 10 seconds and change the volume.</p>
       </div>
       <div class="phone" aria-hidden="true">
         <div class="phone-screen">
@@ -192,7 +182,7 @@
   </main>
 
   <footer>
-    <p>Smarter Subtitles is an independent project and is not affiliated with or endorsed by Netflix. Netflix is a trademark of Netflix, Inc. Clips are from <i>100 Days of Deception</i> and <i>Take Charge of My Heart</i> on Netflix.</p>
+    <p>Smarter Subtitles is an independent project and is not affiliated with or endorsed by Netflix. Netflix is a trademark of Netflix, Inc. Clips are from <i>100 Days of Deception</i>, <i>Genie, Make a Wish</i> and <i>Take Charge of My Heart</i> on Netflix.</p>
     <p>Dictionary data: <a href="https://krdict.korean.go.kr/">한국어기초사전</a> and <a href="https://opendict.korean.go.kr/">우리말샘</a>, National Institute of Korean Language. Word analysis: <a href="https://github.com/bab2min/Kiwi">Kiwi</a> (Apache-2.0).</p>
   </footer>
 </body>

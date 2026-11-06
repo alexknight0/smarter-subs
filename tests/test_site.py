@@ -1,7 +1,7 @@
 """Smoke test for the Smarter Subtitles site: layout on desktop and phone, clips play, stills load, no console errors.
 
 Run: ~/projects/ai-tool-venv/bin/python3 tests/test_site.py [base-url]
-Without a URL it serves the repo folder itself. Screenshots go to ~/.tmp/dual-subs-site-*.png.
+Without a URL it serves the repo folder itself. Screenshots go to ~/.tmp/smarter-subs-site-*.png.
 """
 
 import functools
@@ -14,8 +14,8 @@ from playwright.sync_api import sync_playwright
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT = pathlib.Path.home() / ".tmp"
-CLIPS = 4  # hero, both languages, dictionary, review
-STILLS = 3  # English first, Korean only, Review page
+CLIPS = 5  # hero (both languages), dictionary, hide, customise, reviews
+STILLS = 1  # Vocabulary page
 
 # Every <video> has loaded a frame and is playing; every <img class="clip"> has loaded.
 MEDIA_STATE = """() => ({
@@ -74,8 +74,8 @@ def main():
         assert page.locator("#demo, script[src='demo.js']").count() == 0
         check_media(page)
         print("1/3: desktop: all clips play and all stills load")
-        page.screenshot(path=str(OUT / "dual-subs-site-desktop.png"))
-        page.screenshot(path=str(OUT / "dual-subs-site-full.png"), full_page=True)
+        page.screenshot(path=str(OUT / "smarter-subs-site-desktop.png"))
+        page.screenshot(path=str(OUT / "smarter-subs-site-full.png"), full_page=True)
 
         # Phone
         phone = browser.new_page(viewport={"width": 390, "height": 844}, has_touch=True, is_mobile=True)
@@ -86,8 +86,8 @@ def main():
         width = phone.evaluate("document.documentElement.scrollWidth")
         assert width <= 390, f"page is {width}px wide on a phone"
         print("2/3: phone: clips play (inline), page fits the width")
-        phone.screenshot(path=str(OUT / "dual-subs-site-phone.png"))
-        phone.screenshot(path=str(OUT / "dual-subs-site-phone-full.png"), full_page=True)
+        phone.screenshot(path=str(OUT / "smarter-subs-site-phone.png"))
+        phone.screenshot(path=str(OUT / "smarter-subs-site-phone-full.png"), full_page=True)
 
         browser.close()
     assert not errors, errors
